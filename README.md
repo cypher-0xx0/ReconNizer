@@ -1,4 +1,4 @@
-# ⚔️ ReconNizer — Automated Bug Bounty Recon Framework
+# ⚔️ ReconNizer  Automated Bug Bounty Recon Framework
 
 ```
 ██████╗ ███████╗ ██████╗ ██████╗ ███╗   ██╗███╗   ██╗██╗███████╗███████╗██████╗
@@ -32,7 +32,6 @@ ReconNizer is a fully automated reconnaissance framework built for bug bounty hu
 - 🌐 **Multi-source URL collection** — GAU, Katana, Waymore, OTX, JS file mining
 - 🗂️ **Smart URL categorization** — 13 categories auto-sorted (API, auth, admin, upload, SSRF, etc.)
 - 📡 **Real-time Discord notifications** — progress alerts + every output file delivered as an attachment
-- 🤖 **Local LLM analysis** (optional) — attack surface mapping and priority target ranking via Ollama
 
 ---
 
@@ -80,12 +79,7 @@ Target Domain
              ▼
 ┌─────────────────────────────┐
 │  Discord Delivery           │  All files + summary sent live
-└────────────┬────────────────┘
-             │
-             ▼
-┌─────────────────────────────┐
-│  LLM Analysis (optional)    │  Priority targets + attack map
-└─────────────────────────────┘
+└────────────-────────────────┘
 ```
 
 ---
@@ -98,7 +92,7 @@ Target Domain
 - Python 3.x (for the optional LLM module)
 - `curl`, `zip`, `awk`, `sort` (standard utilities)
 
-### Tools — Install All
+### Tools Installation
 
 ```bash
 # Go-based tools (ProjectDiscovery suite)
@@ -143,7 +137,7 @@ ShuffleDNS requires a resolvers list. Place it at `/home/cypherx/payloads/resolv
 ```bash
 # Download a good public resolvers list
 curl -L https://raw.githubusercontent.com/trickest/resolvers/main/resolvers.txt \
-    -o /home/cypherx/payloads/resolvers.txt
+    -o resolvers.txt
 ```
 
 ---
@@ -185,15 +179,13 @@ discord:
 echo "ReconNizer is ready" | notify -provider discord -id recon-alerts
 ```
 
-### 3. Configure Waymore API Keys (optional but recommended)
+### 3. Configure Waymore API Keys (recommended)
 
 Edit `~/.config/waymore/config.yml`:
 ```yaml
 virustotal_api_key: YOUR_VT_FREE_API_KEY
 urlscan_api_key: YOUR_URLSCAN_API_KEY
 ```
-
-> VirusTotal free tier = 4 requests/min. The script uses `-p 2` (2 parallel requests) to stay within limits automatically.
 
 ---
 
@@ -269,39 +261,6 @@ The script sends the following to Discord automatically during the run:
 | Final summary | Full stats box in code block |
 
 ---
-
-## Optional: LLM Attack Surface Analysis
-
-After recon completes you can feed all results into a local LLM via Ollama to get prioritized targets and an HTML attack map.
-
-### Setup Ollama
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-ollama pull llama3
-ollama serve
-```
-
-### Run the analyzer
-
-```bash
-python3 recon_ai.py recon_target.com target.com llama3 "https://discord.com/api/webhooks/..."
-```
-
-This produces:
-- `attack_surface.json` — structured list of top 15 targets with severity, vuln type, and reasoning
-- `attack_surface_map.html` — dark-themed visual attack map, open in any browser
-- Top 5 targets posted directly to Discord as a formatted message
-
-**Supported models:**
-
-| Model | Notes |
-|---|---|
-| `llama3` | Good default, solid JSON output |
-| `mistral` | Faster, good for quick analysis |
-| `deepseek-coder` | Better at understanding API patterns |
-| `llama3:70b` | Best quality, needs 40GB+ VRAM |
-
 ---
 
 ## URL Sources
@@ -369,7 +328,7 @@ Always follow the scope and rules of engagement of the program you are participa
 
 ## Author
 
-Built by **CypherX** — bug bounty hunter & security researcher.
+Built by **cypher_0xx0** with Love.
 
 ---
 
@@ -385,4 +344,3 @@ This framework wraps and automates tools built by the community. Credit to:
 - [OWASP](https://github.com/owasp-amass) — Amass
 - [Findomain](https://github.com/Findomain) — Findomain
 - [tomnomnom](https://github.com/tomnomnom) — Assetfinder
-- [Ollama](https://ollama.com) — Local LLM runtime
